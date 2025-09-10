@@ -40,4 +40,10 @@ public class UserService {
     public User findByName(String userName){
         return userRepository.findByUserName(userName);
     }
+
+    public User findByUserName(String userName) {
+        User byUserName = userRepository.findByUserName(userName);
+        User byUserName1 = byUserName;
+        return byUserName1;
+    }
 }
