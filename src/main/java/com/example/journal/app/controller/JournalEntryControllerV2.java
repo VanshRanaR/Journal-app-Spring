@@ -22,7 +22,7 @@ public class JournalEntryControllerV2 {
   @Autowired
   private UserService userService;
 
-  @GetMapping("{userName}")
+  @GetMapping("/{userName}")
   public ResponseEntity<?> getAllJournalEntryOfUser(@PathVariable String userName) {
     User user = userService.findByUserName(userName);
     List<JournalEntry> all = user.getJournalEntries();
@@ -33,7 +33,7 @@ public class JournalEntryControllerV2 {
     return new ResponseEntity<>(HttpStatus.NOT_FOUND);
   }
 
-  @PostMapping("{userName}")
+  @PostMapping("/{userName}")
   public ResponseEntity<JournalEntry> createEntry(@RequestBody JournalEntry myEntry, @PathVariable String userName) {
     try {
 
@@ -41,11 +41,12 @@ public class JournalEntryControllerV2 {
       journalEntryService.saveEntry(myEntry, userName);
       return new ResponseEntity<>(myEntry, HttpStatus.CREATED);
     } catch (Exception e) {
+      e.printStackTrace();
       return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
   }
 
-  @GetMapping("id/{myid}")
+  @GetMapping("/id/{myid}")
   public ResponseEntity<JournalEntry> getJournalEntryById(@PathVariable ObjectId myid) {
     Optional<JournalEntry> journalEntry = journalEntryService.findById(myid);
     if (journalEntry.isPresent()) {
@@ -54,7 +55,7 @@ public class JournalEntryControllerV2 {
     return new ResponseEntity<>(HttpStatus.NOT_FOUND);
   }
 
-  @DeleteMapping("id/{userName}/{myid}")
+  @DeleteMapping("/id/{userName}/{myid}")
   public ResponseEntity<?> deleteJournalEntryById(@PathVariable ObjectId myid  ,@PathVariable String userName) {
     journalEntryService.deleteById(myid,userName);
     return new ResponseEntity<>(HttpStatus.NO_CONTENT);
